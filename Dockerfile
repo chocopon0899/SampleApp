@@ -1,2 +1,2 @@
-FROM --platform=linux/amd64 websphere-liberty:full-java8-ibmjava
+FROM default-route-openshift-image-registry.apps-crc.testing/project1/websphere-liberty
 COPY ./SampleApp.war /config/dropins/
