@@ -16,6 +16,8 @@ pipeline{
     stage('Application build') {
       steps {
           sh 'mvn clean install'
+          sh 'ls -ltr'
+          sh 'ls -ltr target/'
         }
       }
     }
