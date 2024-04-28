@@ -20,7 +20,6 @@ pipeline{
           sh 'ls -ltr target/'
         }
       }
-    }
 
     stage('Image Build') {
       steps {
@@ -39,6 +38,8 @@ pipeline{
             }
           }
         }
-      }
+       }
+
+   }
 
 }
