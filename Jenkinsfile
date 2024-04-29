@@ -36,7 +36,24 @@ pipeline{
             }
           }
         }
-       }
+      }
+
+    stage('Application deploy') {
+      steps {
+        echo "deploy"
+          script {
+            openshift.withCluster() {
+              openshift.withProject("${deploy_project}") {
+                // アプリケーションマニフェストを適用（デプロイ）
+                openshift.apply(openshift.process('-f', 'openshift/sampleapp.yaml'))
+
+              }
+            }
+          }
+        }
+      }
+    }      
+
    }
 
 }

@@ -17,6 +17,13 @@ spec:
           image: sampleapp1
           ports:
           - containerPort: 9080
+          volumeMounts:
+            - name: config-vol
+              mountPath: /etc/config
+      volumes:
+        - name: config-vol
+          configMap:
+            name: sampleconf
 ---
 apiVersion: v1
 kind: Service

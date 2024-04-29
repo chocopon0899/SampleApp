@@ -6,9 +6,10 @@ spec:
   triggers: 
     - type: ConfigChange
   source:
-    type: Git 
-    git:
-      uri: "https://github.com/chocopon0899/SampleApp.git"
+    type: Dockerfile
+    dockerfile: |
+      FROM websphere-liberty:full-java8-ibmjava
+      COPY SampleApp.war /config/dropins/
   strategy:
     dockerStrategy:
       from:
