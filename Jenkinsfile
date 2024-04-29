@@ -45,7 +45,7 @@ pipeline{
             openshift.withCluster() {
               openshift.withProject("${deploy_project}") {
                 // アプリケーションマニフェストを適用（デプロイ）
-                openshift.apply('-f', 'openshift/sampleapp.yml').logs("-f")
+                openshift.apply('-f', 'openshift/sampleapp.yml')
 
               }
             }
