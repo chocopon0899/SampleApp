@@ -24,7 +24,7 @@ pipeline{
       steps {
         echo "Building OpenShift container image"
         unstash "war"
-        sh 'ls -l'
+        sh 'ls -l target'
         script {
           openshift.withCluster() {
             openshift.withProject("${deploy_project}") {
