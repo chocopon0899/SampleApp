@@ -32,7 +32,7 @@ pipeline{
                 // openshift.apply(openshift.process('-f', 'openshift/application-build.yaml', '-p', "NAME=${app_name}"))
                 
                 // BuildConfigを実行
-            openshift.selector("bc", "${app_name}").startBuild("--from-dir./target").logs("-f")
+            openshift.selector("bc", "${app_name}").startBuild("--from-dir=./target").logs("-f")
 //                openshift.selector("bc", "${app_name}").startBuild().logs("-f")
                 // ビルドしたイメージに対して、Gitのコミットハッシュ値でタグ付け
             openshift.tag("${app_name}:latest", "${app_name}:${env.GIT_COMMIT}")
