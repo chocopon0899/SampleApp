@@ -23,6 +23,11 @@ pipeline{
 
     stage('Image Build') {
       steps {
+          sh 'mvn clean install'
+          sh 'ls -ltr'
+        }
+        
+      steps {
         echo "Building OpenShift container image"
           script {
             openshift.withCluster() {
