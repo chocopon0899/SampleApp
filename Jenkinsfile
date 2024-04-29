@@ -6,10 +6,8 @@ pipeline{
    }
 
   environment {
-    deploy_branch = "origin/main"
     deploy_project = "project1"
     app_name = 'sampleapp1-build'
-    app_image = "image-registry.openshift-image-registry.svc:5000/${deploy_project}/${app_name}"
   }
    
   stages {
@@ -28,7 +26,7 @@ pipeline{
           openshift.withCluster() {
             openshift.withProject("${deploy_project}") {
             // // BuildConfigのマニフェストを適用
-            // openshift.apply(openshift.process('-f', 'openshift/application-build.yaml', '-p', "NAME=${app_name}"))
+            openshift.apply('-f', 'openshift/sampleapp_build.yml')
                 
             // BuildConfigを実行
             openshift.selector("bc", "${app_name}").startBuild("--from-file=./target/SampleApp.war").logs("-f")
