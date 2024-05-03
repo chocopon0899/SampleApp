@@ -10,12 +10,6 @@ spec:
     dockerfile: |
       FROM wasliberty
       COPY SampleApp.war /config/dropins/
-  strategy:
-    dockerStrategy:
-      from:
-        kind: ImageStreamTag
-        name: websphere-liberty:full-java8-ibmjava
-    type: Docker
   output: 
     to:
       kind: "ImageStreamTag"
