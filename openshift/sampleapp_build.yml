@@ -8,7 +8,7 @@ spec:
   source:
     type: Dockerfile
     dockerfile: |
-      FROM wasliberty
+      FROM default-route-openshift-image-registry.apps-crc.testing/project1/wasliberty
       COPY SampleApp.war /config/dropins/
   strategy:
     type: Docker
