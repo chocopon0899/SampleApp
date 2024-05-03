@@ -8,7 +8,7 @@ spec:
   source:
     type: Dockerfile
     dockerfile: |
-      FROM websphere-liberty:full-java8-ibmjava
+      FROM wasliberty
       COPY SampleApp.war /config/dropins/
   strategy:
     dockerStrategy:
