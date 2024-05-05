@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: samplecon
-          image: sampleapp1
+          image: default-route-openshift-image-registry.apps-crc.testing/project1/sampleapp1
           ports:
           - containerPort: 9080
           volumeMounts:
