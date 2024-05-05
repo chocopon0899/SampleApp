@@ -19,7 +19,7 @@ spec:
           - containerPort: 9080
           volumeMounts:
             - name: config-vol
-              mountPath: /config
+              mountPath: /etc/config
       volumes:
         - name: config-vol
           configMap:
@@ -35,6 +35,6 @@ spec:
     - port: 8099
       targetPort: 9080
       protocol: TCP
-      nodePort: 30081
+      nodePort: 30080
   selector:
     app: sampleapp
