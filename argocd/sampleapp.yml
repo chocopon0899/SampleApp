@@ -19,7 +19,7 @@ spec:
           - containerPort: 9080
           volumeMounts:
             - name: config-vol
-              mountPath: /etc/config
+              mountPath: /config
       volumes:
         - name: config-vol
           configMap:
