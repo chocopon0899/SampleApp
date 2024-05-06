@@ -79,5 +79,5 @@ spec:
       args:
         - -c
         - |
-          cp /root/.docker/config.json /kaniko/.docker/config.json && ls -l &&\
+          cp /root/.docker/config.json /kaniko/.docker/config.json && \
           /kaniko/executor --destination=image-registry.openshift-image-registry.svc:5000/project1/sampleapp1:latest --skip-tls-verify
