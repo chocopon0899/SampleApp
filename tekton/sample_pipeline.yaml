@@ -32,15 +32,10 @@ spec:
         - fetch-repository
     - name: image-push
       taskRef:
-        name: apply-manifests
+        name: kaniko
       workspaces:
         - name: source
           workspace: shared-workspace
-      params:
-        - name: script
-          value: |
-            oc apply -f $(workspaces.source.path)/openshift/sampleapp_build.yml
-            oc start-build sampleapp1-build --from-file=$(workspaces.source.path)/target/SampleApp.war
       runAfter:
         - build
 ---
@@ -68,20 +63,21 @@ spec:
 apiVersion: tekton.dev/v1beta1
 kind: Task
 metadata:
-  name: apply-manifests
+  name: kaniko
 spec:
   workspaces:
     - name: source
-  params:
-    - name: script
-      description: The OpenShift CLI arguments to run
-      type: string
-      default: "oc $@"
-    - name: image
-      type: string
-      default: default-route-openshift-image-registry.apps-crc.testing/openshift/cli:latest
   steps:
-    - name: apply
-      image: "$(params.image)"
-      script: "$(params.script)"
-      workingDir: /workspace/source        
+    - name: image-push
+      image: gcr.io/kaniko-project/executor:v1.22.0-debug
+      workingDir: $(workspaces.source.path)
+      env:
+        - name: "DOCKER_CONFIG"
+          value: "/kaniko/.docker"
+      command:
+        - /busybox/sh
+      args:
+        - -c
+        - |
+          cp /root/.docker/config.json /kaniko/.docker/config.json && ls -l &&\
+          /kaniko/executor --destination=image-registry.openshift-image-registry.svc:5000/project1/sampleapp1:latest --skip-tls-verify
