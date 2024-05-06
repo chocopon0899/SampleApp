@@ -1,0 +1,31 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: sample-pipeline-run
+spec:
+  # 利用するPipelineの選択
+  pipelineRef:
+    name: sample-pipeline
+  params: 
+    - name: git-url
+      value: https://github.com/chocopon0899/SampleApp
+  workspaces: 
+    - name: shared-workspace
+      subPath: source
+      persistentVolumeClaim:
+        claimName: source-pvc
+    - name: maven-settings
+      subPath: maven-repo-cache
+      persistentVolumeClaim:
+        claimName: source-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: source-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi

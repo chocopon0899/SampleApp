@@ -1,0 +1,87 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: sample-pipeline
+spec:
+  workspaces: 
+    - name: shared-workspace
+    - name: maven-settings
+  params:
+    - name: git-url
+      type: string
+  tasks:
+    - name: fetch-repository
+      taskRef:
+        name: git-clone
+        kind: ClusterTask
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+      params:
+        - name: url
+          value: $(params.git-url)
+    - name: build
+      taskRef:
+        name: mvn
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+        - name: maven-settings
+          workspace: maven-settings
+      runAfter:
+        - fetch-repository
+    - name: image-push
+      taskRef:
+        name: apply-manifests
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+      params:
+        - name: script
+          value: |
+            oc apply -f $(workspaces.source.path)/openshift/sampleapp_build.yml
+            oc start-build sampleapp1-build --from-file=$(workspaces.source.path)/target/SampleApp.war
+      runAfter:
+        - build
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: mvn
+spec:
+  workspaces:
+    - name: source
+    - name: maven-settings
+  params:
+    - name: GOALS
+      description: Maven goals to execute
+      default: ["install"]
+  steps:
+    - name: mvn
+      image: gcr.io/cloud-builders/mvn
+      workingDir: $(workspaces.source.path)
+      command: ["/usr/bin/mvn"]
+      args:
+        - -Dmaven.repo.local=$(workspaces.maven-settings.path)
+        - "$(inputs.params.GOALS)"
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: apply-manifests
+spec:
+  workspaces:
+    - name: source
+  params:
+    - name: script
+      description: The OpenShift CLI arguments to run
+      type: string
+      default: "oc $@"
+    - name: image
+      type: string
+      default: default-route-openshift-image-registry.apps-crc.testing/openshift/cli:latest
+  steps:
+    - name: apply
+      image: "$(params.image)"
+      script: "$(params.script)"
+      workingDir: /workspace/source        
