@@ -9,7 +9,7 @@ spec:
     type: Dockerfile
     dockerfile: |
       FROM default-route-openshift-image-registry.apps-crc.testing/project1/wasliberty
-      COPY target/SampleApp.war /config/dropins/
+      COPY SampleApp.war /config/dropins/
   strategy:
     type: Docker
   output: 
