@@ -1,2 +1,2 @@
 # SampleApp
-test2
+コンテナサンプルアプリ
