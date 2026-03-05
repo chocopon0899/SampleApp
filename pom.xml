@@ -1,15 +1,26 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>SampleApp</groupId>
   <artifactId>SampleApp</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
 
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.report.sourceEncoding>UTF-8</project.report.sourceEncoding>
+    <maven.compiler.release>21</maven.compiler.release>
+    <jakartaee-api.version>11.0.0-RC1</jakartaee-api.version>
+    <compiler-plugin.version>3.13.0</compiler-plugin.version>
+    <war-plugin.version>3.4.0</war-plugin.version>
+  </properties>
+
   <dependencies>
     <dependency>
-      <groupId>org.glassfish.jersey.containers</groupId>
-      <artifactId>jersey-container-servlet</artifactId>
-      <version>2.22.1</version>
+      <groupId>jakarta.platform</groupId>
+      <artifactId>jakarta.jakartaee-core-api</artifactId>
+      <version>${jakartaee-api.version}</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   
@@ -19,16 +30,15 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.3</version>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
+        <version>${compiler-plugin.version}</version>
       </plugin>
       <plugin>
          <groupId>org.apache.maven.plugins</groupId>
          <artifactId>maven-war-plugin</artifactId>
-         <version>3.3.2</version>
+         <version>${war-plugin.version}</version>
+           <configuration>
+             <failOnMissingWebXml>false</failOnMissingWebXml>
+           </configuration>
       </plugin>
     </plugins>
  </build>
