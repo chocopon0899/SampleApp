@@ -8,11 +8,11 @@ spec:
   source:
     type: Dockerfile
     dockerfile: |
-      FROM default-route-openshift-image-registry.apps-crc.testing/project1/wasliberty
+      FROM default-route-openshift-image-registry.apps-crc.testing/project1/wasimage
       COPY SampleApp.war /config/dropins/
   strategy:
     type: Docker
   output: 
     to:
-      kind: "ImageStreamTag"
-      name: "sampleapp1:latest"
+      kind: ImageStreamTag
+      name: sampleapp1:latest
